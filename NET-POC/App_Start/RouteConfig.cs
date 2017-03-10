@@ -14,10 +14,17 @@ namespace NET_POC
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
             routes.MapRoute(
+                "HashMake",
+                "Hash/{rawValue}",
+                new {controller = "Encryption", action="Hash"}
+            );
+            
+            routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
                 defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
             );
+            
         }
     }
 }
