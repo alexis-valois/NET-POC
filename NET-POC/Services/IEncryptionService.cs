@@ -6,9 +6,8 @@ using System.Threading.Tasks;
 
 namespace NET_POC.Services
 {
-    interface IEncryptionService
+    public interface IEncryptionService
     {
-
         string GenerateHash(string rawValue);
 
         bool ValidateHash(string rawValue, string correctHash);

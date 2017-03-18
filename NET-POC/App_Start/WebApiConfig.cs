@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Microsoft.Practices.Unity;
+using NET_POC.Services;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -11,6 +13,10 @@ namespace NET_POC.App_Start
         public static void Register(HttpConfiguration config)
         {
             config.MapHttpAttributeRoutes();
+            var container = new UnityContainer();
+            container.RegisterType<IEncryptionService, BCryptEncryptionService>(new HierarchicalLifetimeManager());
+
+            config.DependencyResolver = new UnityResolver(container);
         }
     }
 }

@@ -14,6 +14,11 @@ namespace NET_POC.Services
             this.costParam = costParam;
         }
 
+        public BCryptEncryptionService()
+        {
+            this.costParam = 12;
+        }
+
         public string GenerateHash(string rawValue)
         {
             return BCrypt.Net.BCrypt.HashPassword(rawValue, costParam);

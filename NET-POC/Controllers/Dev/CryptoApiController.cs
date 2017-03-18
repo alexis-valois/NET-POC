@@ -13,7 +13,14 @@ namespace NET_POC.Controllers.Dev
     [RoutePrefix("api/Crypto")]
     public class CryptoApiController : ApiController
     {
-        private IEncryptionService encryptionService = new BCryptEncryptionService(12);
+        //private IEncryptionService encryptionService = new BCryptEncryptionService(12);
+
+        private IEncryptionService encryptionService;
+
+        public CryptoApiController(IEncryptionService encryptionService)
+        {
+            this.encryptionService = encryptionService;
+        }
 
         [Route("Hash/{rawValue}")]
         [HttpGet]
