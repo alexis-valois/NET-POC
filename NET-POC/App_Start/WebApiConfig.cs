@@ -13,9 +13,13 @@ namespace NET_POC.App_Start
         public static void Register(HttpConfiguration config)
         {
             config.MapHttpAttributeRoutes();
-            var container = new UnityContainer();
-            container.RegisterType<IEncryptionService, BCryptEncryptionService>(new HierarchicalLifetimeManager());
+            RegisterDependencyResolver(config);
+        }
 
+        public static void RegisterDependencyResolver(HttpConfiguration config)
+        {
+            var container = new UnityContainer();
+            UnityConfig.RegisterTypes(container);
             config.DependencyResolver = new UnityResolver(container);
         }
     }
