@@ -1,0 +1,26 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
+using System.Web;
+
+namespace NET_POC.Entities
+{
+    public class BaseEBEntity
+    {
+        [Required]
+        [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
+        public DateTime DateCreated { get; set; }
+
+        [Required]
+        public string DateCreatedTimezone { get; set; }
+
+        [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
+        public DateTime DateDeleted { get; set; }
+
+        public string DateDeletedTimezone { get; set; }
+
+        public bool Deleted { get; set; }
+    }
+}

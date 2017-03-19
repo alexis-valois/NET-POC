@@ -12,6 +12,10 @@ namespace NET_POC.Controllers
         [Route("")]
         public ActionResult Index()
         {
+            using (Entities.EBContext db = new Entities.EBContext())
+            {
+                db.Users.ToList();
+            }
             return View();
         }
     }

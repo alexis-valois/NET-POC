@@ -16,7 +16,7 @@ namespace NET_POC.App_Start
             RegisterDependencyResolver(config);
         }
 
-        public static void RegisterDependencyResolver(HttpConfiguration config)
+        private static void RegisterDependencyResolver(HttpConfiguration config)
         {
             var container = new UnityContainer();
             UnityConfig.RegisterTypes(container);
