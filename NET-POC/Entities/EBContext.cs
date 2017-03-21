@@ -26,8 +26,12 @@ namespace NET_POC.Entities
             var adminBase = new BaseEBEntity();
             var adminAuthority = new EBAuthority(adminBase);
             adminAuthority.Role = RoleType.ADMIN;
+            adminAuthority.EBAuthorityID = 1;
+
             var alexisBase = new BaseEBEntity();
             var alexisUser = new EBUser(alexisBase, adminAuthority);
+            alexisUser.EBUserID = 1;
+            alexisUser.Username = "avalois";
             alexisUser.Email = "alexis.valois@hotmail.com";
             alexisUser.FirstName = "Alexis";
             alexisUser.LastName = "Valois";

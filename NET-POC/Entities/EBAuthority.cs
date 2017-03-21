@@ -18,7 +18,7 @@ namespace NET_POC.Entities
         public long EBAuthorityID { get; set; }
 
         [Required]
-        public RoleType Role { get; set; }
+        public RoleType Role { get; set; } = RoleType.USER;
 
         public virtual ICollection<EBUser> AssociatedUsers { get; set; } = new List<EBUser>();
 

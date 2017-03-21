@@ -25,29 +25,31 @@ namespace NET_POC.Entities
 
         public string ActivationToken { get; set; }
 
-        [Required]
         public string FirstName { get; set; }
 
-        [Required]
         public string LastName { get; set; }
 
         public string Password { get; set; }
-        
-        public bool Enabled { get; set; }
 
-        public DateTime LastLogin { get; set; }
+        [Required]
+        public bool Enabled { get; set; } = false;
+
+        public DateTime? LastLogin { get; set; }
 
         public string LastLoginTimezone { get; set; }
 
-        public DateTime LastLogout { get; set; }
+        public DateTime? LastLogout { get; set; }
 
         public string LastLogoutTimezone { get; set; }
 
-        public bool Locked { get; set; }
+        [Required]
+        public bool Locked { get; set; } = false;
 
-        public bool CredentialsExpired { get; set; }
+        [Required]
+        public bool CredentialsExpired { get; set; } = false;
 
-        public bool AccountExpired { get; set; }
+        [Required]
+        public bool AccountExpired { get; set; } = false;
 
         public virtual ICollection<EBAuthority> Authorities { get; set; } = new List<EBAuthority>();
         

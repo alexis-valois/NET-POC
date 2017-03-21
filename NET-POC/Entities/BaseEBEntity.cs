@@ -10,17 +10,15 @@ namespace NET_POC.Entities
     public class BaseEBEntity
     {
         [Required]
-        [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
-        public DateTime DateCreated { get; set; }
+        public DateTime DateCreated { get; set; } = DateTime.Now.ToUniversalTime();
 
         [Required]
-        public string DateCreatedTimezone { get; set; }
+        public string DateCreatedTimezone { get; set; } = "America/Montreal";
 
-        [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
-        public DateTime DateDeleted { get; set; }
+        public DateTime? DateDeleted { get; set; }
 
         public string DateDeletedTimezone { get; set; }
 
-        public bool Deleted { get; set; }
+        public bool Deleted { get; set; } = false;
     }
 }
