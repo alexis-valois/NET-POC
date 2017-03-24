@@ -9,17 +9,18 @@ namespace NET_POC.Entities
 {
     public class EBUser : IEBEntity
     {
-        public BaseEBEntity BaseEntity { get; set; } = new BaseEBEntity();
+        public BaseEBEntity BaseEntity { get; } = new BaseEBEntity();
 
         [Key]
         [Index]
         public long EBUserID { get; set; }
 
-        [Index]
+        [Index("IX_Username", IsUnique = true)]
         [Required]
         public string Username { get; set; }
 
         [Index]
+        [Index("IX_Email", IsUnique = true)]
         [Required]
         public string Email { get; set; }
 
@@ -52,20 +53,8 @@ namespace NET_POC.Entities
         public bool AccountExpired { get; set; } = false;
 
         public virtual ICollection<EBAuthority> Authorities { get; set; } = new List<EBAuthority>();
-        
-        public EBUser(BaseEBEntity baseEntity, ICollection<EBAuthority> authorities)
-        {
-            BaseEntity = baseEntity;
-            Authorities = authorities;
-        }
 
-        public EBUser(BaseEBEntity baseEntity, EBAuthority authoritie)
-        {
-            BaseEntity = baseEntity;
-            Authorities.Add(authoritie);
-        }
-
-        public EBUser() { }
+        public virtual ICollection<FinancialAccount> FinancialAccounts { get; set; } = new List<FinancialAccount>();
 
         public bool IsEmpty
         {

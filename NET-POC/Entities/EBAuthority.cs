@@ -22,13 +22,6 @@ namespace NET_POC.Entities
 
         public virtual ICollection<EBUser> AssociatedUsers { get; set; } = new List<EBUser>();
 
-        public EBAuthority(BaseEBEntity baseEntity)
-        {
-            BaseEntity = baseEntity;
-        }
-
-        public EBAuthority() { }
-
         public bool IsEmpty
         {
             get

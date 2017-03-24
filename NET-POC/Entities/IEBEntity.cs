@@ -8,7 +8,7 @@ namespace NET_POC.Entities
 {
     public interface IEBEntity
     {
-        BaseEBEntity BaseEntity { get; set; }
+        BaseEBEntity BaseEntity { get; }
         bool IsEmpty { get; }
     }
 }
