@@ -11,6 +11,7 @@ namespace NET_POC.Entities
     {
         public DbSet<EBUser> Users { get; set; }
         public DbSet<EBAuthority> Authorities { get; set; }
+        public DbSet<FinancialAccount> FinancialAccounts { get; set; }
 
         static EBContext()
         {
@@ -36,7 +37,7 @@ namespace NET_POC.Entities
             if (pendingMigrations)
             {
                 migrator.Update();
-                //Seed(new EBContext());
+                Seed(new EBContext());
             }
         }
 
@@ -46,11 +47,15 @@ namespace NET_POC.Entities
             adminAuthority.Role = RoleType.ADMIN;
             adminAuthority.EBAuthorityID = 1;
 
+            context.Authorities.AddOrUpdate(adminAuthority);
+
             var banque = new FinancialAccount();
             banque.AccountName = "Banque Nationale";
             banque.InitAmount = 0;
             banque.Currency = Currency.CAD;
             banque.Type = AccountType.DEBITOR;
+
+            context.FinancialAccounts.AddOrUpdate(banque);
 
             var alexisUser = new EBUser();
             alexisUser.Authorities.Add(adminAuthority);
@@ -64,7 +69,7 @@ namespace NET_POC.Entities
             //BCrypt Hash : alexis
             alexisUser.Password = "$2a$12$cT1IEyGkt1F.PuAQZvLOJ.WNEVdQ0VW4E8SjeBDWWs3d5BgCsYhoO";
 
-            context.Users.Add(alexisUser);
+            context.Users.AddOrUpdate(alexisUser);
 
             context.SaveChanges();
             base.Seed(context);
