@@ -12,5 +12,9 @@ namespace NET_POC.Services
 
         bool ValidateHash(string rawValue, string correctHash);
 
+        Task<string> GenerateHashAsync(string rawValue);
+
+        Task<bool> ValidateHashAsync(string rawValue, string correctHash);
+
     }
 }

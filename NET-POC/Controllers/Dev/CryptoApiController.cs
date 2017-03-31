@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Threading.Tasks;
 using System.Web.Helpers;
 using System.Web.Http;
 using System.Web.Http.Results;
@@ -22,17 +23,17 @@ namespace NET_POC.Controllers.Dev
 
         [Route("Hash/{rawValue}")]
         [HttpGet]
-        public HttpResponseMessage Hash(string rawValue)
+        public async Task<HttpResponseMessage> Hash(string rawValue)
         {
-            string hashResponse = encryptionService.GenerateHash(rawValue);          
+            string hashResponse = await encryptionService.GenerateHashAsync(rawValue);          
             return Request.CreateResponse(HttpStatusCode.OK, hashResponse); 
         }
 
         [Route("Verify/{rawValue}")]
         [HttpGet]
-        public HttpResponseMessage Verify(string rawValue, string correctHash)
+        public async Task<HttpResponseMessage> Verify(string rawValue, string correctHash)
         {
-            var valid = encryptionService.ValidateHash(rawValue, correctHash);
+            var valid = await encryptionService.ValidateHashAsync(rawValue, correctHash);
             return Request.CreateResponse(HttpStatusCode.OK, valid);
         }
     }
