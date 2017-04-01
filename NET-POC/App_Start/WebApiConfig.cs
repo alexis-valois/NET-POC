@@ -10,17 +10,9 @@ namespace NET_POC.App_Start
 {
     public class WebApiConfig
     {
-        public static void Register(HttpConfiguration config)
+        internal static void Register(HttpConfiguration config)
         {
             config.MapHttpAttributeRoutes();
-            RegisterDependencyResolver(config);
-        }
-
-        private static void RegisterDependencyResolver(HttpConfiguration config)
-        {
-            var container = new UnityContainer();
-            UnityConfig.RegisterTypes(container);
-            config.DependencyResolver = new UnityResolver(container);
         }
     }
 }

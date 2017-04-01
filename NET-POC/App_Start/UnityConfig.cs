@@ -4,6 +4,7 @@ using Microsoft.Practices.Unity.Configuration;
 using NET_POC.Services;
 using System.Configuration;
 using System.Collections.Specialized;
+using System.Web.Http;
 
 namespace NET_POC.App_Start
 {
@@ -38,6 +39,14 @@ namespace NET_POC.App_Start
         public static void RegisterTypes(IUnityContainer container)
         {
             container.RegisterInstance<IEncryptionService>(new BCryptEncryptionService( Int32.Parse(appSettings.Get("BCryptCostParam") )) );
+        }
+
+
+        internal static void RegisterDependencyResolver(HttpConfiguration config)
+        {
+            var container = new UnityContainer();
+            UnityConfig.RegisterTypes(container);
+            config.DependencyResolver = new UnityResolver(container);
         }
     }
 }
