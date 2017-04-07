@@ -1,23 +1,26 @@
-﻿using System;
+﻿using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
+using System.Threading.Tasks;
 
 namespace NET_POC.Entities
 {
-    public class EBUser : IEBEntity
+    public class EBUser : IUser, IEBEntity
     {
         public BaseEBEntity BaseEntity { get; } = new BaseEBEntity();
 
         [Key]
         [Index]
-        public long EBUserID { get; set; }
+        public string Id { get; set; }
 
         [Index("IX_Username", IsUnique = true)]
         [Required]
-        public string Username { get; set; }
+        public string UserName { get; set; }
 
         [Index]
         [Index("IX_Email", IsUnique = true)]
@@ -60,7 +63,7 @@ namespace NET_POC.Entities
         {
             get
             {
-                return string.IsNullOrEmpty(this.Username);
+                return string.IsNullOrEmpty(this.UserName);
             }
         }
     }

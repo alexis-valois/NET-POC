@@ -12,5 +12,7 @@ namespace NET_POC.Entities
         public DbSet<EBUser> Users { get; set; }
         public DbSet<EBAuthority> Authorities { get; set; }
         public DbSet<FinancialAccount> FinancialAccounts { get; set; }
-    }    
+    }  
+    
+      
 }
