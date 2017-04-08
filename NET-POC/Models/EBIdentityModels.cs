@@ -9,9 +9,9 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
 
-namespace NET_POC.Entities
+namespace NET_POC.Models
 {
-    public class EBUser : IdentityUser, IEBEntity
+    public class EBUser : IdentityUser<int, EBUserLogin, EBUserRole, EBUserClaim>, IUser, IEBEntity
     {
         public BaseEBEntity BaseEntity { get; } = new BaseEBEntity();
 
@@ -19,9 +19,9 @@ namespace NET_POC.Entities
         [Index]
         public long EBUserID { get; set; }
 
-        [Index("IX_Username", IsUnique = true)]
-        [Required]
-        public string Username { get; set; }
+        //[Index("IX_Username", IsUnique = true)]
+        //[Required]
+        //public string Username { get; set; }
 
         //[Index]
         //[Index("IX_Email", IsUnique = true)]
@@ -56,15 +56,21 @@ namespace NET_POC.Entities
         [Required]
         public bool AccountExpired { get; set; } = false;
 
-        public virtual ICollection<EBAuthority> Authorities { get; set; } = new List<EBAuthority>();
-
         public virtual ICollection<FinancialAccount> FinancialAccounts { get; set; } = new List<FinancialAccount>();
 
         public bool IsEmpty
         {
             get
             {
-                return string.IsNullOrEmpty(this.Username);
+                return string.IsNullOrEmpty(this.UserName);
+            }
+        }
+
+        string IUser<string>.Id
+        {
+            get
+            {
+                throw new NotImplementedException();
             }
         }
 
@@ -72,6 +78,16 @@ namespace NET_POC.Entities
         {
             var userIdentity = await manager.CreateIdentityAsync(this, DefaultAuthenticationTypes.ApplicationCookie);
             return userIdentity;
+        }
+    }
+
+    public class EBIdentityDbContext : IdentityDbContext
+    {
+        public EBIdentityDbContext() : base("DefaultConnection") { }
+
+        public static EBIdentityDbContext Create()
+        {
+            return new EBIdentityDbContext();
         }
     }
 }

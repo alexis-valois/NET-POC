@@ -1,7 +1,8 @@
 ﻿using Microsoft.AspNet.Identity;
 using Microsoft.Owin;
 using Microsoft.Owin.Security.Cookies;
-using NET_POC.Entities;
+using NET_POC.App_Start;
+using NET_POC.Models;
 using Owin;
 using System;
 using System.Collections.Generic;
@@ -15,6 +16,7 @@ namespace NET_POC
         public void ConfigureAuth(IAppBuilder app)
         {
             app.CreatePerOwinContext(EBIdentityContext.Create);
+            app.CreatePerOwinContext<EBUserManager>(EBUserManager.Create);
             app.UseCookieAuthentication(new CookieAuthenticationOptions
             {
                 AuthenticationType = DefaultAuthenticationTypes.ApplicationCookie,

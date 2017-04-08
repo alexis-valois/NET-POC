@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
 
-namespace NET_POC.Entities
+namespace NET_POC.Models
 {
     public class BaseEBEntity
     {

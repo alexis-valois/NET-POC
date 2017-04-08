@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NET_POC.Entities
+namespace NET_POC.Models
 {
     public interface IEBEntity
     {

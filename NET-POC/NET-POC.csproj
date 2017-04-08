@@ -208,6 +208,7 @@
   <ItemGroup>
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
+    <Compile Include="App_Start\IdentityConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\UnityConfig.cs" />
@@ -217,12 +218,20 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\Dev\CryptoApiController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Entities\BaseEBEntity.cs" />
-    <Compile Include="Entities\EBAuthority.cs" />
-    <Compile Include="Entities\EBContext.cs" />
-    <Compile Include="Entities\EBUser.cs" />
-    <Compile Include="Entities\FinancialAccount.cs" />
-    <Compile Include="Entities\IEBEntity.cs" />
+    <Compile Include="Migrations\201704081427186_Identity.cs" />
+    <Compile Include="Migrations\201704081427186_Identity.Designer.cs">
+      <DependentUpon>201704081427186_Identity.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Models\BaseEBEntity.cs" />
+    <Compile Include="Models\EBRole.cs" />
+    <Compile Include="Models\EBContext.cs" />
+    <Compile Include="Models\EBIdentityModels.cs" />
+    <Compile Include="Models\EBUserClaim.cs" />
+    <Compile Include="Models\EBUserLogin.cs" />
+    <Compile Include="Models\EBUserRole.cs" />
+    <Compile Include="Models\EBUserStore.cs" />
+    <Compile Include="Models\FinancialAccount.cs" />
+    <Compile Include="Models\IEBEntity.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -231,7 +240,7 @@
       <DependentUpon>201703310009087_Initial.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
-    <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="ViewModels\AccountViewModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\BCryptEncryptionService.cs" />
     <Compile Include="Services\IEncryptionService.cs" />
@@ -314,6 +323,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201703310009087_Initial.resx">
       <DependentUpon>201703310009087_Initial.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201704081427186_Identity.resx">
+      <DependentUpon>201704081427186_Identity.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
