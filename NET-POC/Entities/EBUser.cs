@@ -1,13 +1,17 @@
-﻿using System;
+﻿using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
+using System.Security.Claims;
+using System.Threading.Tasks;
 using System.Web;
 
 namespace NET_POC.Entities
 {
-    public class EBUser : IEBEntity
+    public class EBUser : IdentityUser, IEBEntity
     {
         public BaseEBEntity BaseEntity { get; } = new BaseEBEntity();
 
@@ -19,10 +23,10 @@ namespace NET_POC.Entities
         [Required]
         public string Username { get; set; }
 
-        [Index]
-        [Index("IX_Email", IsUnique = true)]
-        [Required]
-        public string Email { get; set; }
+        //[Index]
+        //[Index("IX_Email", IsUnique = true)]
+        //[Required]
+        //public string Email { get; set; }
 
         public string ActivationToken { get; set; }
 
@@ -62,6 +66,12 @@ namespace NET_POC.Entities
             {
                 return string.IsNullOrEmpty(this.Username);
             }
+        }
+
+        public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<EBUser> manager)
+        {
+            var userIdentity = await manager.CreateIdentityAsync(this, DefaultAuthenticationTypes.ApplicationCookie);
+            return userIdentity;
         }
     }
 }

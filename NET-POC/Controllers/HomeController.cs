@@ -6,6 +6,8 @@ using System.Web.Mvc;
 
 namespace NET_POC.Controllers
 {
+    [Authorize]
+    [AllowAnonymous]
     [RoutePrefix("")]
     public class HomeController : Controller
     {
