@@ -10,10 +10,10 @@ namespace NET_POC.Models
 {
     public class EBUserLogin : IdentityUserLogin<int>, IEBEntity
     {
+        public BaseEBEntity BaseEntity { get; set; } = new BaseEBEntity();
+
         [Key]
         public int Id { get; set; }
-
-        public BaseEBEntity BaseEntity { get; set; } = new BaseEBEntity();
 
         public bool IsEmpty
         {

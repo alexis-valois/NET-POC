@@ -10,15 +10,8 @@ namespace NET_POC.Models
     public class BaseEBEntity
     {
         [Required]
-        public DateTime DateCreated { get; set; } = DateTime.Now.ToUniversalTime();
+        public DateTime DateCreatedUtc { get; set; } = DateTime.Now.ToUniversalTime();
 
-        [Required]
-        public string DateCreatedTimezone { get; set; } = "America/Montreal";
-
-        public DateTime? DateDeleted { get; set; }
-
-        public string DateDeletedTimezone { get; set; }
-
-        public bool Deleted { get; set; } = false;
+        public DateTime? DateDeletedUtc { get; set; }
     }
 }

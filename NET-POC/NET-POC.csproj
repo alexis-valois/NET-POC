@@ -218,14 +218,15 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\Dev\CryptoApiController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Migrations\201704081427186_Identity.cs" />
-    <Compile Include="Migrations\201704081427186_Identity.Designer.cs">
-      <DependentUpon>201704081427186_Identity.cs</DependentUpon>
+    <Compile Include="Migrations\201704091709283_Initial.cs" />
+    <Compile Include="Migrations\201704091709283_Initial.Designer.cs">
+      <DependentUpon>201704091709283_Initial.cs</DependentUpon>
     </Compile>
     <Compile Include="Models\BaseEBEntity.cs" />
     <Compile Include="Models\EBRole.cs" />
     <Compile Include="Models\EBContext.cs" />
-    <Compile Include="Models\EBIdentityModels.cs" />
+    <Compile Include="Models\EBIdentityContext.cs" />
+    <Compile Include="Models\EBUser.cs" />
     <Compile Include="Models\EBUserClaim.cs" />
     <Compile Include="Models\EBUserLogin.cs" />
     <Compile Include="Models\EBUserRole.cs" />
@@ -234,10 +235,6 @@
     <Compile Include="Models\IEBEntity.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201703310009087_Initial.cs" />
-    <Compile Include="Migrations\201703310009087_Initial.Designer.cs">
-      <DependentUpon>201703310009087_Initial.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="ViewModels\AccountViewModels.cs" />
@@ -321,11 +318,8 @@
     <Content Include="Scripts\jquery-1.10.2.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201703310009087_Initial.resx">
-      <DependentUpon>201703310009087_Initial.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201704081427186_Identity.resx">
-      <DependentUpon>201704081427186_Identity.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201704091709283_Initial.resx">
+      <DependentUpon>201704091709283_Initial.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

@@ -13,42 +13,22 @@ namespace NET_POC.Models
 {
     public class EBUser : IdentityUser<int, EBUserLogin, EBUserRole, EBUserClaim>, IUser, IEBEntity
     {
-        public BaseEBEntity BaseEntity { get; } = new BaseEBEntity();
-
-        [Key]
-        [Index]
-        public long EBUserID { get; set; }
-
-        //[Index("IX_Username", IsUnique = true)]
-        //[Required]
-        //public string Username { get; set; }
-
-        //[Index]
-        //[Index("IX_Email", IsUnique = true)]
-        //[Required]
-        //public string Email { get; set; }
+        public BaseEBEntity BaseEntity { get; set; } = new BaseEBEntity();
 
         public string ActivationToken { get; set; }
+
+        public string CreationTimezone { get; set; }
 
         public string FirstName { get; set; }
 
         public string LastName { get; set; }
 
-        public string Password { get; set; }
-
         [Required]
         public bool Enabled { get; set; } = false;
 
-        public DateTime? LastLogin { get; set; }
+        public DateTime? LastLoginUtc { get; set; }
 
-        public string LastLoginTimezone { get; set; }
-
-        public DateTime? LastLogout { get; set; }
-
-        public string LastLogoutTimezone { get; set; }
-
-        [Required]
-        public bool Locked { get; set; } = false;
+        public DateTime? LastLogoutUtc { get; set; }
 
         [Required]
         public bool CredentialsExpired { get; set; } = false;
@@ -78,16 +58,6 @@ namespace NET_POC.Models
         {
             var userIdentity = await manager.CreateIdentityAsync(this, DefaultAuthenticationTypes.ApplicationCookie);
             return userIdentity;
-        }
-    }
-
-    public class EBIdentityDbContext : IdentityDbContext
-    {
-        public EBIdentityDbContext() : base("DefaultConnection") { }
-
-        public static EBIdentityDbContext Create()
-        {
-            return new EBIdentityDbContext();
         }
     }
 }

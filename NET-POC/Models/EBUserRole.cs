@@ -10,10 +10,10 @@ namespace NET_POC.Models
 {
     public class EBUserRole : IdentityUserRole<int>, IEBEntity
     {
-        [Key]
-        public int Id { get; set; }
-
         public BaseEBEntity BaseEntity { get; set; } = new BaseEBEntity();
+
+        [Key]
+        public int UserRoleId { get; set; }
 
         public bool IsEmpty
         {

@@ -12,17 +12,13 @@ namespace NET_POC.Models
     {
         public BaseEBEntity BaseEntity { get; set; } = new BaseEBEntity();
 
-        [Key]
-        [Index]
-        public long EBAuthorityID { get; set; }
-
         public virtual ICollection<EBUser> AssociatedUsers { get; set; } = new List<EBUser>();
 
         public bool IsEmpty
         {
             get
             {
-                return EBAuthorityID == 0;
+                return Id == 0;
             }
         }
     }

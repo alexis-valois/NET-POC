@@ -24,6 +24,17 @@ namespace NET_POC.Migrations
                 Type = AccountType.DEBITOR
             };
             context.FinancialAccounts.AddOrUpdate(b => b.AccountName, banque);
+            context.SaveChanges();
+
+            var adminRole = new EBRole
+            {
+                Name = "Admin",
+            };
+
+            context.Roles.AddOrUpdate(a => a.Name, adminRole);
+            context.SaveChanges();
+
+            var alexisUserRole = new EBUserRole();
 
             var alexisUser = new EBUser
             {
@@ -32,12 +43,19 @@ namespace NET_POC.Migrations
                 FirstName = "Alexis",
                 LastName = "Valois",
                 //BCrypt Hash : alexis
-                Password = "$2a$12$cT1IEyGkt1F.PuAQZvLOJ.WNEVdQ0VW4E8SjeBDWWs3d5BgCsYhoO"
+                PasswordHash = "$2a$12$cT1IEyGkt1F.PuAQZvLOJ.WNEVdQ0VW4E8SjeBDWWs3d5BgCsYhoO"
             };
             alexisUser.FinancialAccounts.Add(banque);
+            alexisUser.Roles.Add(alexisUserRole);
             context.Users.AddOrUpdate(u => u.UserName, alexisUser);
-
             context.SaveChanges();
+
+            alexisUserRole.UserId = alexisUser.Id;
+            alexisUserRole.RoleId = adminRole.Id;
+
+            //context.UserRoles.AddOrUpdate(alexisUserRole);
+            context.SaveChanges();
+
             base.Seed(context);
         }
     }
