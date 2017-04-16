@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.Owin;
 using Microsoft.Owin.Security.Cookies;
 using NET_POC.App_Start;
@@ -8,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 
 namespace NET_POC
 {
@@ -15,8 +17,10 @@ namespace NET_POC
     {
         public void ConfigureAuth(IAppBuilder app)
         {
-            app.CreatePerOwinContext(EBIdentityContext.Create);
-            app.CreatePerOwinContext<EBUserManager>(EBUserManager.Create);
+            //app.CreatePerOwinContext(EBIdentityContext.Create);
+            //app.CreatePerOwinContext<EBUserManager>(EBUserManager.Create);
+            app.CreatePerOwinContext(() => DependencyResolver.Current.GetService<UserManager<EBUser,string>>());
+            app.CreatePerOwinContext(() => DependencyResolver.Current.GetService<EBIdentityContext>());
             app.UseCookieAuthentication(new CookieAuthenticationOptions
             {
                 AuthenticationType = DefaultAuthenticationTypes.ApplicationCookie,

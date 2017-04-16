@@ -11,7 +11,9 @@ using System.Web;
 
 namespace NET_POC.Models
 {
-    public class EBUser : IdentityUser<int, EBUserLogin, EBUserRole, EBUserClaim>, IUser, IEBEntity
+    public class EBUser : 
+        IdentityUser, 
+        IEBEntity
     {
         public BaseEBEntity BaseEntity { get; set; } = new BaseEBEntity();
 
@@ -43,14 +45,6 @@ namespace NET_POC.Models
             get
             {
                 return string.IsNullOrEmpty(this.UserName);
-            }
-        }
-
-        string IUser<string>.Id
-        {
-            get
-            {
-                throw new NotImplementedException();
             }
         }
 

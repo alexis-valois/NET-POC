@@ -13,7 +13,7 @@ namespace NET_POC.Migrations
         
         string IMigrationMetadata.Id
         {
-            get { return "201704091709283_Initial"; }
+            get { return "201704161709284_Initial"; }
         }
         
         string IMigrationMetadata.Source

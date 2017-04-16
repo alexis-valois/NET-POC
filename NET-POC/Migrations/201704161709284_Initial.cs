@@ -27,7 +27,7 @@ namespace NET_POC.Migrations
                 "dbo.EBUsers",
                 c => new
                     {
-                        Id = c.Int(nullable: false, identity: true),
+                        Id = c.String(nullable: false, maxLength: 4000),
                         BaseEntity_DateCreatedUtc = c.DateTime(nullable: false),
                         BaseEntity_DateDeletedUtc = c.DateTime(),
                         ActivationToken = c.String(maxLength: 4000),
@@ -50,69 +50,52 @@ namespace NET_POC.Migrations
                         LockoutEnabled = c.Boolean(nullable: false),
                         AccessFailedCount = c.Int(nullable: false),
                         UserName = c.String(maxLength: 4000),
-                        EBRole_Id = c.Int(),
                     })
-                .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.EBRoles", t => t.EBRole_Id)
-                .Index(t => t.EBRole_Id);
+                .PrimaryKey(t => t.Id);
             
             CreateTable(
-                "dbo.EBUserClaims",
+                "dbo.IdentityUserClaims",
                 c => new
                     {
-                        Id = c.Int(nullable: false, identity: true),
-                        BaseEntity_DateCreatedUtc = c.DateTime(nullable: false),
-                        BaseEntity_DateDeletedUtc = c.DateTime(),
-                        UserId = c.Int(nullable: false),
+                        Id = c.Int(nullable: false),
+                        UserId = c.String(nullable: false, maxLength: 4000),
                         ClaimType = c.String(maxLength: 4000),
                         ClaimValue = c.String(maxLength: 4000),
-                        EBUser_Id = c.Int(),
                     })
-                .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.EBUsers", t => t.EBUser_Id)
-                .Index(t => t.EBUser_Id);
+                .PrimaryKey(t => new { t.Id, t.UserId })
+                .ForeignKey("dbo.EBUsers", t => t.UserId, cascadeDelete: true)
+                .Index(t => t.UserId);
             
             CreateTable(
-                "dbo.EBUserLogins",
+                "dbo.IdentityUserLogins",
                 c => new
                     {
-                        Id = c.Int(nullable: false, identity: true),
-                        BaseEntity_DateCreatedUtc = c.DateTime(nullable: false),
-                        BaseEntity_DateDeletedUtc = c.DateTime(),
-                        LoginProvider = c.String(maxLength: 4000),
-                        ProviderKey = c.String(maxLength: 4000),
-                        UserId = c.Int(nullable: false),
-                        EBUser_Id = c.Int(),
+                        LoginProvider = c.String(nullable: false, maxLength: 4000),
+                        ProviderKey = c.String(nullable: false, maxLength: 4000),
+                        UserId = c.String(nullable: false, maxLength: 4000),
                     })
-                .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.EBUsers", t => t.EBUser_Id)
-                .Index(t => t.EBUser_Id);
+                .PrimaryKey(t => new { t.LoginProvider, t.ProviderKey, t.UserId })
+                .ForeignKey("dbo.EBUsers", t => t.UserId, cascadeDelete: true)
+                .Index(t => t.UserId);
             
             CreateTable(
-                "dbo.EBUserRoles",
+                "dbo.IdentityUserRoles",
                 c => new
                     {
-                        UserRoleId = c.Int(nullable: false, identity: true),
-                        BaseEntity_DateCreatedUtc = c.DateTime(nullable: false),
-                        BaseEntity_DateDeletedUtc = c.DateTime(),
-                        UserId = c.Int(nullable: false),
-                        RoleId = c.Int(nullable: false),
-                        EBUser_Id = c.Int(),
-                        EBRole_Id = c.Int(),
+                        RoleId = c.String(nullable: false, maxLength: 4000),
+                        UserId = c.String(nullable: false, maxLength: 4000),
                     })
-                .PrimaryKey(t => t.UserRoleId)
-                .ForeignKey("dbo.EBUsers", t => t.EBUser_Id)
-                .ForeignKey("dbo.EBRoles", t => t.EBRole_Id)
-                .Index(t => t.EBUser_Id)
-                .Index(t => t.EBRole_Id);
+                .PrimaryKey(t => new { t.RoleId, t.UserId })
+                .ForeignKey("dbo.EBUsers", t => t.UserId, cascadeDelete: true)
+                .ForeignKey("dbo.IdentityRoles", t => t.RoleId, cascadeDelete: true)
+                .Index(t => t.RoleId)
+                .Index(t => t.UserId);
             
             CreateTable(
-                "dbo.EBRoles",
+                "dbo.IdentityRoles",
                 c => new
                     {
-                        Id = c.Int(nullable: false, identity: true),
-                        BaseEntity_DateCreatedUtc = c.DateTime(nullable: false),
-                        BaseEntity_DateDeletedUtc = c.DateTime(),
+                        Id = c.String(nullable: false, maxLength: 4000),
                         Name = c.String(maxLength: 4000),
                     })
                 .PrimaryKey(t => t.Id);
@@ -121,7 +104,7 @@ namespace NET_POC.Migrations
                 "dbo.EBUserFinancialAccounts",
                 c => new
                     {
-                        EBUser_Id = c.Int(nullable: false),
+                        EBUser_Id = c.String(nullable: false, maxLength: 4000),
                         FinancialAccount_EBFinancialAccountID = c.Long(nullable: false),
                     })
                 .PrimaryKey(t => new { t.EBUser_Id, t.FinancialAccount_EBFinancialAccountID })
@@ -134,27 +117,25 @@ namespace NET_POC.Migrations
         
         public override void Down()
         {
-            DropForeignKey("dbo.EBUserRoles", "EBRole_Id", "dbo.EBRoles");
-            DropForeignKey("dbo.EBUsers", "EBRole_Id", "dbo.EBRoles");
-            DropForeignKey("dbo.EBUserRoles", "EBUser_Id", "dbo.EBUsers");
-            DropForeignKey("dbo.EBUserLogins", "EBUser_Id", "dbo.EBUsers");
+            DropForeignKey("dbo.IdentityUserRoles", "RoleId", "dbo.IdentityRoles");
+            DropForeignKey("dbo.IdentityUserRoles", "UserId", "dbo.EBUsers");
+            DropForeignKey("dbo.IdentityUserLogins", "UserId", "dbo.EBUsers");
             DropForeignKey("dbo.EBUserFinancialAccounts", "FinancialAccount_EBFinancialAccountID", "dbo.FinancialAccounts");
             DropForeignKey("dbo.EBUserFinancialAccounts", "EBUser_Id", "dbo.EBUsers");
-            DropForeignKey("dbo.EBUserClaims", "EBUser_Id", "dbo.EBUsers");
+            DropForeignKey("dbo.IdentityUserClaims", "UserId", "dbo.EBUsers");
             DropIndex("dbo.EBUserFinancialAccounts", new[] { "FinancialAccount_EBFinancialAccountID" });
             DropIndex("dbo.EBUserFinancialAccounts", new[] { "EBUser_Id" });
-            DropIndex("dbo.EBUserRoles", new[] { "EBRole_Id" });
-            DropIndex("dbo.EBUserRoles", new[] { "EBUser_Id" });
-            DropIndex("dbo.EBUserLogins", new[] { "EBUser_Id" });
-            DropIndex("dbo.EBUserClaims", new[] { "EBUser_Id" });
-            DropIndex("dbo.EBUsers", new[] { "EBRole_Id" });
+            DropIndex("dbo.IdentityUserRoles", new[] { "UserId" });
+            DropIndex("dbo.IdentityUserRoles", new[] { "RoleId" });
+            DropIndex("dbo.IdentityUserLogins", new[] { "UserId" });
+            DropIndex("dbo.IdentityUserClaims", new[] { "UserId" });
             DropIndex("dbo.FinancialAccounts", new[] { "AccountName" });
             DropIndex("dbo.FinancialAccounts", new[] { "EBFinancialAccountID" });
             DropTable("dbo.EBUserFinancialAccounts");
-            DropTable("dbo.EBRoles");
-            DropTable("dbo.EBUserRoles");
-            DropTable("dbo.EBUserLogins");
-            DropTable("dbo.EBUserClaims");
+            DropTable("dbo.IdentityRoles");
+            DropTable("dbo.IdentityUserRoles");
+            DropTable("dbo.IdentityUserLogins");
+            DropTable("dbo.IdentityUserClaims");
             DropTable("dbo.EBUsers");
             DropTable("dbo.FinancialAccounts");
         }

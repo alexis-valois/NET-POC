@@ -5,6 +5,9 @@ using NET_POC.Services;
 using System.Configuration;
 using System.Collections.Specialized;
 using System.Web.Http;
+using Microsoft.AspNet.Identity;
+using NET_POC.Models;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace NET_POC.App_Start
 {
@@ -38,7 +41,8 @@ namespace NET_POC.App_Start
         /// change the defaults), as Unity allows resolving a concrete type even if it was not previously registered.</remarks>
         public static void RegisterTypes(IUnityContainer container)
         {
-            container.RegisterInstance<IEncryptionService>(new BCryptEncryptionService( Int32.Parse(appSettings.Get("BCryptCostParam") )) );
+            container.RegisterInstance<IEncryptionService>(new BCryptEncryptionService(int.Parse(appSettings.Get("BCryptCostParam") )) );
+            container.RegisterInstance(new UserManager<EBUser, string>(new UserStore<EBUser, IdentityRole, string, IdentityUserLogin, IdentityUserRole, IdentityUserClaim>(new EBIdentityDbContext())));
         }
 
 

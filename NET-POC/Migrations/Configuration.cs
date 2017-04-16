@@ -1,5 +1,6 @@
 namespace NET_POC.Migrations
 {
+    using Microsoft.AspNet.Identity.EntityFramework;
     using Models;
     using System;
     using System.Data.Entity;
@@ -26,15 +27,15 @@ namespace NET_POC.Migrations
             context.FinancialAccounts.AddOrUpdate(b => b.AccountName, banque);
             context.SaveChanges();
 
-            var adminRole = new EBRole
+            var adminRole = new IdentityRole()
             {
-                Name = "Admin",
+                Name = "Admin"
             };
 
             context.Roles.AddOrUpdate(a => a.Name, adminRole);
             context.SaveChanges();
 
-            var alexisUserRole = new EBUserRole();
+            var alexisUserRole = new IdentityUserRole();
 
             var alexisUser = new EBUser
             {
@@ -46,14 +47,15 @@ namespace NET_POC.Migrations
                 PasswordHash = "$2a$12$cT1IEyGkt1F.PuAQZvLOJ.WNEVdQ0VW4E8SjeBDWWs3d5BgCsYhoO"
             };
             alexisUser.FinancialAccounts.Add(banque);
-            alexisUser.Roles.Add(alexisUserRole);
             context.Users.AddOrUpdate(u => u.UserName, alexisUser);
             context.SaveChanges();
 
             alexisUserRole.UserId = alexisUser.Id;
             alexisUserRole.RoleId = adminRole.Id;
 
-            //context.UserRoles.AddOrUpdate(alexisUserRole);
+            context.UserRoles.AddOrUpdate(alexisUserRole);
+
+            alexisUser.Roles.Add(alexisUserRole);
             context.SaveChanges();
 
             base.Seed(context);

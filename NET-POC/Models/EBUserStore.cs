@@ -9,16 +9,12 @@ using System.Threading.Tasks;
 
 namespace NET_POC.Models
 {
-    public class EBUserStore : 
-        UserStore<EBUser,EBRole,int,EBUserLogin,EBUserRole, EBUserClaim>, 
-        IUserStore<EBUser>, 
-        IDisposable
-    {
-        public EBUserStore(EBIdentityDbContext context) : base(context) { }
+    //public class EBUserStore : 
+    //    UserStore<EBUser,IdentityRole,string,IdentityUserLogin,IdentityUserRole, IdentityUserClaim>, 
+    //    IUserStore<EBUser>, 
+    //    IDisposable
+    //{
+    //    public EBUserStore(EBIdentityDbContext context) : base(context) { }
 
-        public Task<EBUser> FindByIdAsync(string userId)
-        {
-            throw new NotImplementedException();
-        }
-    }
+    //}
 }
