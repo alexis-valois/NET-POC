@@ -41,8 +41,10 @@ namespace NET_POC.App_Start
         /// change the defaults), as Unity allows resolving a concrete type even if it was not previously registered.</remarks>
         public static void RegisterTypes(IUnityContainer container)
         {
+            var ebContext = new EBIdentityContext();
+            container.RegisterInstance(ebContext);
             container.RegisterInstance<IEncryptionService>(new BCryptEncryptionService(int.Parse(appSettings.Get("BCryptCostParam") )) );
-            container.RegisterInstance(new UserManager<EBUser, string>(new UserStore<EBUser, IdentityRole, string, IdentityUserLogin, IdentityUserRole, IdentityUserClaim>(new EBIdentityDbContext())));
+            container.RegisterInstance(new UserManager<EBUser, string>(new UserStore<EBUser, IdentityRole, string, IdentityUserLogin, IdentityUserRole, IdentityUserClaim>(ebContext)));
         }
 
 
