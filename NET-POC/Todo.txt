@@ -1,0 +1,6 @@
+﻿Ajouter un context qui créé tout les models
+Garder les 2 sous-context pour travailler avec la bd
+Mettre un Database Intializer null pour les 2 sous-contexts
+
+voir : http://stackoverflow.com/questions/27969861/entity-framework-sharing-entities-across-different-dbcontexts
+

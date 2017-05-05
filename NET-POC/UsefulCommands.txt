@@ -1,0 +1,4 @@
+﻿--------------ENTITY FRAMEWORK COMMANDS----------------
+
+Add-Migration -ConfigurationTypeName EBIdentityConfiguration Initial
+Update-Database -ConfigurationTypeName EBIdentityConfiguration

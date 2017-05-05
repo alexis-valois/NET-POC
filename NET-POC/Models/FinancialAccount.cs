@@ -16,7 +16,7 @@ namespace NET_POC.Models
 
         [Key]
         [Index]
-        public long EBFinancialAccountID { get; set; }
+        public string Id { get; set; }
 
         [Required]
         public AccountType Type { get; set; } = AccountType.DEBITOR;
