@@ -42,14 +42,14 @@ namespace NET_POC.App_Start
         public static void RegisterTypes(IUnityContainer container)
         {
             container.RegisterInstance<IEncryptionService>(new BCryptEncryptionService(int.Parse(appSettings.Get("BCryptCostParam") )) );
-            container.RegisterInstance(new UserManager<EBUser, string>(new UserStore<EBUser, IdentityRole, string, IdentityUserLogin, IdentityUserRole, IdentityUserClaim>(new EBIdentityDbContext())));
+            container.RegisterInstance(new UserManager<EBUser, string>(new UserStore<EBUser, IdentityRole, string, IdentityUserLogin, IdentityUserRole, IdentityUserClaim>(EBIdentityContext.Create())));
         }
 
 
         internal static void RegisterDependencyResolver(HttpConfiguration config)
         {
             var container = new UnityContainer();
-            UnityConfig.RegisterTypes(container);
+            RegisterTypes(container);
             config.DependencyResolver = new UnityResolver(container);
         }
     }
