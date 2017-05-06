@@ -13,6 +13,7 @@ namespace NET_POC.Migrations.EBContext
         {
             AutomaticMigrationsEnabled = false;
             MigrationsDirectory = @"Migrations\EBContext";
+
         }
 
         protected override void Seed(NET_POC.Models.EBContext context)
