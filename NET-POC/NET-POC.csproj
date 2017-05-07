@@ -211,7 +211,7 @@
     <Compile Include="App_Start\IdentityConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
-    <Compile Include="App_Start\UnityConfig.cs" />
+    <Compile Include="App_Start\ContainerBootstrapper.cs" />
     <Compile Include="App_Start\UnityResolver.cs" />
     <Compile Include="App_Start\UnityWebApiActivator.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
@@ -222,12 +222,14 @@
     <Compile Include="Migrations\201705061733371_Initial.Designer.cs">
       <DependentUpon>201705061733371_Initial.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\DependsOnAttribute.cs" />
+    <Compile Include="CustomAttributes\DependsOnAttribute.cs" />
+    <Compile Include="Migrations\Seeds\FinancialAccountSeed.cs" />
+    <Compile Include="Migrations\GlobalSeeder.cs" />
     <Compile Include="Migrations\ISeed.cs" />
+    <Compile Include="Migrations\Seeds\UserSeed.cs" />
     <Compile Include="Models\BaseEBEntity.cs" />
     <Compile Include="Models\EBContext.cs" />
     <Compile Include="Models\EBUser.cs" />
-    <Compile Include="Models\EBUserStore.cs" />
     <Compile Include="Models\FinancialAccount.cs" />
     <Compile Include="Models\IEBEntity.cs" />
     <Compile Include="Global.asax.cs">

@@ -1,13 +1,14 @@
 namespace NET_POC.Migrations
 {
     using Microsoft.AspNet.Identity.EntityFramework;
+    using Microsoft.Practices.Unity;
     using Models;
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Migrations;
     using System.Linq;
 
-    internal sealed class Configuration : DbMigrationsConfiguration<NET_POC.Models.EBContext>
+    internal sealed class Configuration : DbMigrationsConfiguration<EBContext>
     {
         public Configuration()
         {
@@ -15,49 +16,11 @@ namespace NET_POC.Migrations
             AutomaticMigrationDataLossAllowed = true;
         }
 
-        protected override void Seed(NET_POC.Models.EBContext context)
+        protected override void Seed(EBContext context)
         {
-            var banque = new FinancialAccount
-            {
-                AccountName = "Banque Nationale",
-                InitAmount = 1200,
-                Currency = Currency.CAD,
-                Type = AccountType.DEBITOR
-            };
-            context.FinancialAccounts.AddOrUpdate(b => b.AccountName, banque);
-            context.SaveChanges();
-
-            var adminRole = new IdentityRole()
-            {
-                Name = "Admin"
-            };
-
-            context.Roles.AddOrUpdate(a => a.Name, adminRole);
-            context.SaveChanges();
-
-            var alexisUserRole = new IdentityUserRole();
-
-            var alexisUser = new EBUser
-            {
-                UserName = "avalois",
-                Email = "alexis.valois@hotmail.com",
-                FirstName = "Alexis",
-                LastName = "Valois",
-                //BCrypt Hash : alexis
-                PasswordHash = "$2a$12$cT1IEyGkt1F.PuAQZvLOJ.WNEVdQ0VW4E8SjeBDWWs3d5BgCsYhoO"
-            };
-            alexisUser.FinancialAccounts.Add(banque);
-            context.Users.AddOrUpdate(u => u.UserName, alexisUser);
-            context.SaveChanges();
-
-            alexisUserRole.UserId = alexisUser.Id;
-            alexisUserRole.RoleId = adminRole.Id;
-
-            context.UserRoles.AddOrUpdate(alexisUserRole);
-
-            alexisUser.Roles.Add(alexisUserRole);
-            context.SaveChanges();
-
+            // Impossible d'utiliser l'injection de dépendance dans une migration.
+            GlobalSeeder seeder = new GlobalSeeder();
+            seeder.SeedDatabase(context);
             base.Seed(context);
         }
     }

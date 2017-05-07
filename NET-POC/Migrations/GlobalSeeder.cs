@@ -18,7 +18,7 @@ namespace NET_POC.Migrations
                 seedTypes.Select(st => new
                 {
                     SeedType = st,
-                    DependingSeeds = st.GetCustomAttributes(true).Where(a => a.GetType().IsAssignableFrom(DependsOnAttribute)).Select(dst => dst.DependingType).ToList()
+                    DependingSeeds = st.GetCustomAttributes(typeof(DependsOnAttribute), true).Cast<DependsOnAttribute>().Select(ds => ds.DependingType).ToList()
                 }).ToList();
 
             //While there is still some seeds to process

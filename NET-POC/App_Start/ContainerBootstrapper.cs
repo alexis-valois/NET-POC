@@ -8,13 +8,14 @@ using System.Web.Http;
 using Microsoft.AspNet.Identity;
 using NET_POC.Models;
 using Microsoft.AspNet.Identity.EntityFramework;
+using NET_POC.Migrations;
 
 namespace NET_POC.App_Start
 {
     /// <summary>
     /// Specifies the Unity configuration for the main container.
     /// </summary>
-    public class UnityConfig
+    public class ContainerBootstrapper
     {
         #region Unity Container
         private static Lazy<IUnityContainer> container = new Lazy<IUnityContainer>(() =>

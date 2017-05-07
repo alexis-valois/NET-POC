@@ -15,7 +15,7 @@ namespace NET_POC
         protected void Application_Start()
         {
             GlobalConfiguration.Configure(WebApiConfig.Register);
-            GlobalConfiguration.Configure(UnityConfig.RegisterDependencyResolver);
+            GlobalConfiguration.Configure(ContainerBootstrapper.RegisterDependencyResolver);
             AreaRegistration.RegisterAllAreas();
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
