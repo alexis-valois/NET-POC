@@ -14,7 +14,7 @@ namespace NET_POC.App_Start
         {
             // Use UnityHierarchicalDependencyResolver if you want to use a new child container for each IHttpController resolution.
             // var resolver = new UnityHierarchicalDependencyResolver(UnityConfig.GetConfiguredContainer());
-            var resolver = new UnityDependencyResolver(UnityConfig.GetConfiguredContainer());
+            var resolver = new UnityDependencyResolver(ContainerBootstrapper.GetConfiguredContainer());
 
             GlobalConfiguration.Configuration.DependencyResolver = resolver;
         }
@@ -22,7 +22,7 @@ namespace NET_POC.App_Start
         /// <summary>Disposes the Unity container when the application is shut down.</summary>
         public static void Shutdown()
         {
-            var container = UnityConfig.GetConfiguredContainer();
+            var container = ContainerBootstrapper.GetConfiguredContainer();
             container.Dispose();
         }
     }

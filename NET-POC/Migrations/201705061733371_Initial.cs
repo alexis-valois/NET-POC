@@ -1,4 +1,4 @@
-namespace NET_POC.Migrations.EBIdentityContext
+namespace NET_POC.Migrations
 {
     using System;
     using System.Data.Entity.Migrations;
@@ -8,26 +8,20 @@ namespace NET_POC.Migrations.EBIdentityContext
         public override void Up()
         {
             CreateTable(
-                "dbo.IdentityRoles",
+                "dbo.FinancialAccounts",
                 c => new
                     {
-                        Id = c.String(nullable: false, maxLength: 4000),
-                        Name = c.String(maxLength: 4000),
+                        EBFinancialAccountID = c.Long(nullable: false, identity: true),
+                        BaseEntity_DateCreatedUtc = c.DateTime(nullable: false),
+                        BaseEntity_DateDeletedUtc = c.DateTime(),
+                        Type = c.Int(nullable: false),
+                        AccountName = c.String(nullable: false, maxLength: 4000),
+                        InitAmount = c.Decimal(nullable: false, precision: 18, scale: 2),
+                        Currency = c.Int(nullable: false),
                     })
-                .PrimaryKey(t => t.Id);
-            
-            CreateTable(
-                "dbo.IdentityUserRoles",
-                c => new
-                    {
-                        RoleId = c.String(nullable: false, maxLength: 4000),
-                        UserId = c.String(nullable: false, maxLength: 4000),
-                    })
-                .PrimaryKey(t => new { t.RoleId, t.UserId })
-                .ForeignKey("dbo.IdentityRoles", t => t.RoleId, cascadeDelete: true)
-                .ForeignKey("dbo.EBUsers", t => t.UserId, cascadeDelete: true)
-                .Index(t => t.RoleId)
-                .Index(t => t.UserId);
+                .PrimaryKey(t => t.EBFinancialAccountID)
+                .Index(t => t.EBFinancialAccountID)
+                .Index(t => t.AccountName);
             
             CreateTable(
                 "dbo.EBUsers",
@@ -84,23 +78,66 @@ namespace NET_POC.Migrations.EBIdentityContext
                 .ForeignKey("dbo.EBUsers", t => t.UserId, cascadeDelete: true)
                 .Index(t => t.UserId);
             
+            CreateTable(
+                "dbo.IdentityUserRoles",
+                c => new
+                    {
+                        RoleId = c.String(nullable: false, maxLength: 4000),
+                        UserId = c.String(nullable: false, maxLength: 4000),
+                    })
+                .PrimaryKey(t => new { t.RoleId, t.UserId })
+                .ForeignKey("dbo.EBUsers", t => t.UserId, cascadeDelete: true)
+                .ForeignKey("dbo.IdentityRoles", t => t.RoleId, cascadeDelete: true)
+                .Index(t => t.RoleId)
+                .Index(t => t.UserId);
+            
+            CreateTable(
+                "dbo.IdentityRoles",
+                c => new
+                    {
+                        Id = c.String(nullable: false, maxLength: 4000),
+                        Name = c.String(maxLength: 4000),
+                    })
+                .PrimaryKey(t => t.Id);
+            
+            CreateTable(
+                "dbo.EBUserFinancialAccounts",
+                c => new
+                    {
+                        EBUser_Id = c.String(nullable: false, maxLength: 4000),
+                        FinancialAccount_EBFinancialAccountID = c.Long(nullable: false),
+                    })
+                .PrimaryKey(t => new { t.EBUser_Id, t.FinancialAccount_EBFinancialAccountID })
+                .ForeignKey("dbo.EBUsers", t => t.EBUser_Id, cascadeDelete: true)
+                .ForeignKey("dbo.FinancialAccounts", t => t.FinancialAccount_EBFinancialAccountID, cascadeDelete: true)
+                .Index(t => t.EBUser_Id)
+                .Index(t => t.FinancialAccount_EBFinancialAccountID);
+            
         }
         
         public override void Down()
         {
+            DropForeignKey("dbo.IdentityUserRoles", "RoleId", "dbo.IdentityRoles");
             DropForeignKey("dbo.IdentityUserRoles", "UserId", "dbo.EBUsers");
             DropForeignKey("dbo.IdentityUserLogins", "UserId", "dbo.EBUsers");
+            DropForeignKey("dbo.EBUserFinancialAccounts", "FinancialAccount_EBFinancialAccountID", "dbo.FinancialAccounts");
+            DropForeignKey("dbo.EBUserFinancialAccounts", "EBUser_Id", "dbo.EBUsers");
             DropForeignKey("dbo.IdentityUserClaims", "UserId", "dbo.EBUsers");
-            DropForeignKey("dbo.IdentityUserRoles", "RoleId", "dbo.IdentityRoles");
-            DropIndex("dbo.IdentityUserLogins", new[] { "UserId" });
-            DropIndex("dbo.IdentityUserClaims", new[] { "UserId" });
+            DropIndex("dbo.EBUserFinancialAccounts", new[] { "FinancialAccount_EBFinancialAccountID" });
+            DropIndex("dbo.EBUserFinancialAccounts", new[] { "EBUser_Id" });
             DropIndex("dbo.IdentityUserRoles", new[] { "UserId" });
             DropIndex("dbo.IdentityUserRoles", new[] { "RoleId" });
+            DropIndex("dbo.IdentityUserLogins", new[] { "UserId" });
+            DropIndex("dbo.IdentityUserClaims", new[] { "UserId" });
+            DropIndex("dbo.FinancialAccounts", new[] { "AccountName" });
+            DropIndex("dbo.FinancialAccounts", new[] { "EBFinancialAccountID" });
+            DropTable("dbo.EBUserFinancialAccounts");
+            DropTable("dbo.IdentityRoles");
+            DropTable("dbo.IdentityUserRoles");
             DropTable("dbo.IdentityUserLogins");
             DropTable("dbo.IdentityUserClaims");
             DropTable("dbo.EBUsers");
-            DropTable("dbo.IdentityUserRoles");
-            DropTable("dbo.IdentityRoles");
+            DropTable("dbo.FinancialAccounts");
         }
     }
 }

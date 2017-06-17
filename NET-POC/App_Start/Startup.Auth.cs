@@ -20,7 +20,7 @@ namespace NET_POC
             //app.CreatePerOwinContext(EBIdentityContext.Create);
             //app.CreatePerOwinContext<EBUserManager>(EBUserManager.Create);
             app.CreatePerOwinContext(() => DependencyResolver.Current.GetService<UserManager<EBUser,string>>());
-            app.CreatePerOwinContext(() => DependencyResolver.Current.GetService<EBIdentityContext>());
+            app.CreatePerOwinContext(() => DependencyResolver.Current.GetService<DataContexts>());
             app.UseCookieAuthentication(new CookieAuthenticationOptions
             {
                 AuthenticationType = DefaultAuthenticationTypes.ApplicationCookie,

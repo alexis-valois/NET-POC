@@ -14,7 +14,7 @@ namespace NET_POC.Controllers
         [Route("")]
         public ActionResult Index()
         {
-            using (Models.EBContext db = new Models.EBContext())
+            using (Models.DataContexts db = new Models.DataContexts())
             {
                 db.Users.ToList();
             }

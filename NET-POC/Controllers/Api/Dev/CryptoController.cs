@@ -1,5 +1,4 @@
-﻿using NET_POC.Filters;
-using NET_POC.Utilities;
+﻿using NET_POC.Utilities;
 using System.Web.Http;
 using System.Web.Http.Results;
 

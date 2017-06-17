@@ -1,26 +1,19 @@
-﻿using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.EntityFramework;
+﻿using Microsoft.AspNet.Identity.EntityFramework;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity;
+using System.Data.Entity.Migrations;
 using System.Linq;
-using System.Security.Claims;
-using System.Threading.Tasks;
 using System.Web;
 
 namespace NET_POC.Models
 {
-    public class EBIdentityContext :
-           IdentityDbContext<EBUser,
-                             IdentityRole,
-                             string,
-                             IdentityUserLogin,
-                             IdentityUserRole,
-                             IdentityUserClaim>
+    public class DataContexts : DbContext
     {
-        public EBIdentityContext() : base("NET_POC.Entities.EBContext") { }
+        public DbSet<EBUser> Users { get; set; }
+        public DbSet<IdentityRole> Roles { get; set; }
+        public DbSet<FinancialAccount> FinancialAccounts { get; set; }
+        public DbSet<IdentityUserRole> UserRoles { get; set; }
 
         override protected void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -31,8 +24,23 @@ namespace NET_POC.Models
             modelBuilder.Entity<EBUser>().HasMany(p => p.Roles).WithRequired().HasForeignKey(p => p.UserId);
             modelBuilder.Entity<EBUser>().HasMany(p => p.Logins).WithRequired().HasForeignKey(p => p.UserId);
             modelBuilder.Entity<EBUser>().HasMany(p => p.Claims).WithRequired().HasForeignKey(p => p.UserId);
-
-            modelBuilder.Ignore<FinancialAccount>();
         }
+    }
+
+    public class EBIdentityContext :
+        IdentityDbContext<EBUser,
+                          IdentityRole,
+                          string,
+                          IdentityUserLogin,
+                          IdentityUserRole,
+                          IdentityUserClaim>
+    {
+        public EBIdentityContext() : base("NET_POC.Entities.EBContext") { }
+
+        public static EBIdentityContext Create()
+        {
+            return new EBIdentityContext();
+        }
+
     }
 }

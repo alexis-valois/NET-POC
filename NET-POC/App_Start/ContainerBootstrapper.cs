@@ -8,13 +8,14 @@ using System.Web.Http;
 using Microsoft.AspNet.Identity;
 using NET_POC.Models;
 using Microsoft.AspNet.Identity.EntityFramework;
+using NET_POC.Migrations;
 
 namespace NET_POC.App_Start
 {
     /// <summary>
     /// Specifies the Unity configuration for the main container.
     /// </summary>
-    public class UnityConfig
+    public class ContainerBootstrapper
     {
         #region Unity Container
         private static Lazy<IUnityContainer> container = new Lazy<IUnityContainer>(() =>
@@ -41,17 +42,15 @@ namespace NET_POC.App_Start
         /// change the defaults), as Unity allows resolving a concrete type even if it was not previously registered.</remarks>
         public static void RegisterTypes(IUnityContainer container)
         {
-            var ebContext = new EBIdentityContext();
-            container.RegisterInstance(ebContext);
             container.RegisterInstance<IEncryptionService>(new BCryptEncryptionService(int.Parse(appSettings.Get("BCryptCostParam") )) );
-            container.RegisterInstance(new UserManager<EBUser, string>(new UserStore<EBUser, IdentityRole, string, IdentityUserLogin, IdentityUserRole, IdentityUserClaim>(ebContext)));
+            container.RegisterInstance(new UserManager<EBUser, string>(new UserStore<EBUser, IdentityRole, string, IdentityUserLogin, IdentityUserRole, IdentityUserClaim>(EBIdentityContext.Create())));
         }
 
 
         internal static void RegisterDependencyResolver(HttpConfiguration config)
         {
             var container = new UnityContainer();
-            UnityConfig.RegisterTypes(container);
+            RegisterTypes(container);
             config.DependencyResolver = new UnityResolver(container);
         }
     }

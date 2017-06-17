@@ -1,21 +1,17 @@
-namespace NET_POC.Migrations.EBIdentityContext
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using NET_POC.Models;
+using Microsoft.AspNet.Identity.EntityFramework;
+using System.Data.Entity.Migrations;
+
+namespace NET_POC.Migrations
 {
-    using Microsoft.AspNet.Identity.EntityFramework;
-    using Models;
-    using System;
-    using System.Data.Entity;
-    using System.Data.Entity.Migrations;
-    using System.Linq;
-
-    internal sealed class EBIdentityConfiguration : DbMigrationsConfiguration<NET_POC.Models.EBIdentityContext>
+    [DependsOn(typeof(FinancialAccountSeed))]
+    class UserSeed : ISeed
     {
-        public EBIdentityConfiguration()
-        {
-            AutomaticMigrationsEnabled = false;
-            MigrationsDirectory = @"Migrations\EBIdentityContext";
-        }
-
-        protected override void Seed(NET_POC.Models.EBIdentityContext context)
+        public void SeedData(NET_POC.Models.DataContexts context)
         {
             var adminRole = new IdentityRole()
             {
@@ -37,10 +33,10 @@ namespace NET_POC.Migrations.EBIdentityContext
                 PasswordHash = "$2a$12$cT1IEyGkt1F.PuAQZvLOJ.WNEVdQ0VW4E8SjeBDWWs3d5BgCsYhoO"
             };
 
-            alexisUserRole.UserId = alexisUser.Id;
-            alexisUserRole.RoleId = adminRole.Id;
-            alexisUser.Roles.Add(alexisUserRole);
+            var banque = context.FinancialAccounts.Where(fa => fa.AccountName == "Banque Nationale")
+                                                  .SingleOrDefault(fa => fa.InitAmount == 1200);
 
+            alexisUser.FinancialAccounts.Add(banque);
             context.Users.AddOrUpdate(u => u.UserName, alexisUser);
             context.SaveChanges();
         }
