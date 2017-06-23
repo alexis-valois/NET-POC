@@ -219,10 +219,10 @@
     <Compile Include="Controllers\Api\Dev\CryptoController.cs" />
     <Compile Include="Controllers\Dev\CryptoApiController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Migrations\201705061733371_Initial.cs" />
     <Compile Include="CustomAttributes\DependsOnAttribute.cs" />
-    <Compile Include="Migrations\201705061733371_Initial.Designer.cs">
-      <DependentUpon>201705061733371_Initial.cs</DependentUpon>
+    <Compile Include="Migrations\201706231542240_Initial.cs" />
+    <Compile Include="Migrations\201706231542240_Initial.Designer.cs">
+      <DependentUpon>201706231542240_Initial.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\EBMigrationsConfiguration.cs" />
     <Compile Include="Migrations\Seeds\FinancialAccountSeed.cs" />
@@ -323,8 +323,8 @@
     <Content Include="Scripts\jquery-1.10.2.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201705061733371_Initial.resx">
-      <DependentUpon>201705061733371_Initial.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201706231542240_Initial.resx">
+      <DependentUpon>201706231542240_Initial.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
